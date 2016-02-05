@@ -1,0 +1,11 @@
+Package: TransP
+Type: Package
+Title: Implementation of Transportation Problem Algorithm
+Version: 0.1
+Date: 2016-02-03
+Author: Somenath Sit
+Maintainer: Somenath Sit <somenath.bhu.2010@gmail.com>
+Description: It implements transportation problem algorithms.
+License: GPL (>= 2)
+LazyLoad: yes
+RoxygenNote: 5.0.1
