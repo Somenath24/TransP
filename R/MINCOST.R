@@ -88,10 +88,14 @@ mincost=function(ex_matrix){
           output=list()
           output$Alloc_Matrix=Alloc_Matrix
           output$Total_Cost=Total_Cost
+          
+          #If Supply and Demand are not same
           if(sum(Demand) != 0)
             output$Dummy_demand=sum(Demand)
           else if(sum(Supply) != 0)
             output$Dummy_supply=sum(Supply)
-
+          
+          if(Total_alloc < (nrow(Alloc_Matrix) + ncol(Alloc_Matrix)-1))
+            warning("Degenracy in Transporation Problem Occurred")
           return(output)
 }

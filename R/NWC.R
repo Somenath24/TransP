@@ -81,7 +81,8 @@ nwc=function(ex_matrix){
   output=list()
   output$Alloc_Matrix=Alloc_Matrix
   output$Total_Cost=Total_Cost
-
+  
+  #If Supply and Demand are not same
   if(sum(ex_matrix[nrow(ex_matrix),]) != 0)
     output$Dummy_demand=sum(ex_matrix[nrow(ex_matrix),])
   else if(sum(ex_matrix[,ncol(ex_matrix)]) != 0)
