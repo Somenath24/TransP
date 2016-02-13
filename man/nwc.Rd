@@ -40,7 +40,7 @@ W4      17  24  18 13  19    130
 Demand 210 240 110 80 170    810
 
 nwc(ex_matrix)
-$Cost_Matrix
+$Alloc_Matrix
     M1  M2  M3 M4  M5
 W1 210 220   0  0   0
 W2   0  20 110 20   0

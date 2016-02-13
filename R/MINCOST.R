@@ -1,16 +1,16 @@
 
 #' Implements Minimum Cost Algorithm to solve transportation problem
 #'
-#' This function implements Minimum Cost Algorithm to resolve transportation problem and get optimized cost matrix
+#' This function implements Minimum Cost Algorithm to resolve transportation problem and get optimized allocation matrix
 #'
 #' @param ex_matrix A cost matrix where last column must be the supply and last row must be the demand.
 #' Input matrix should not have any missing values (NA), otherwise function will throw an error.
-#' @return A List which contrains the Cost allocation matrix and the total optimized cost.
+#' @return A List which contrains the allocation matrix and the total optimized cost.
 #'
 #' @details
 #' This function takes a cost matrix (with Supply and Demand) and using North-West Corner approach gives
-#' the cost allocation matrix as well as the calcualted optimized cost.
-#' This function checks for degenerated problem but it can't resolve it. User need to resolve by seeing the cost allocation matrix.
+#' the allocation matrix as well as the calcualted optimized cost.
+#' This function checks for degenerated problem but it can't resolve it. User need to resolve by seeing final allocation matrix.
 #' If Supply and Demand are not equal Balance Supply/Demand will be stored in Dummy variable.
 #'
 #' @examples
@@ -32,7 +32,7 @@
 #'
 #' mincost(ex_matrix)
 #'
-#' $Cost_Matrix
+#' $Alloc_Matrix
 #'      M1  M2  M3 M4  M5
 #' W1 140 140 110  0  40
 #' W2  70   0   0 80   0
@@ -54,38 +54,39 @@ mincost=function(ex_matrix){
         Demand=as.vector(ex_matrix[nrow(ex_matrix),-ncol(ex_matrix)])
         Supply=as.vector(ex_matrix[-nrow(ex_matrix),ncol(ex_matrix)])
         High_Values=max(ex_matrix) + 999999999
-        Cost_Matrix=ex_matrix[-nrow(ex_matrix),-ncol(ex_matrix)]
-        ex_matrix=Cost_Matrix
-        Cost_Matrix[,]=0
+        Alloc_Matrix=ex_matrix[-nrow(ex_matrix),-ncol(ex_matrix)]
+        ex_matrix=Alloc_Matrix
+        Alloc_Matrix[,]=0
         Total_Cost=0
         Total_alloc=0
 
         while(sum(Supply) != 0 & sum(Demand) != 0)
         {
-          tc=which.min(apply(ex_matrix,MARGIN=2,min))  #column of minimum value
-          tr=which.min(apply(ex_matrix,MARGIN=1,min))  #row of minimum value
-
-          min_curr=min(Demand[tc],Supply[tr])
-
-          Demand[tc]=Demand[tc] - min_curr
-          Supply[tr]=Supply[tr] - min_curr
-          Cost_Matrix[tr,tc]=min_curr
-          Total_Cost=Total_Cost+(min_curr*ex_matrix[tr,tc])
-
-          if(Demand[tc]==0)
-          {
-            ex_matrix[,tc]=rep(High_Values,nrow(ex_matrix))
-          }else if(Demand[tc]==Supply[tr])
-          {
-            ex_matrix[tr,]=rep(High_Values,ncol(ex_matrix))
-            ex_matrix[,tc]=rep(High_Values,nrow(ex_matrix))
-          }else{
-            ex_matrix[tr,]=rep(High_Values,ncol(ex_matrix))
-          }
+            tc=which.min(apply(ex_matrix,MARGIN=2,min))  #column of minimum value
+            tr=which.min(apply(ex_matrix,MARGIN=1,min))  #row of minimum value
+  
+            min_curr=min(Demand[tc],Supply[tr])
+  
+            Demand[tc]=Demand[tc] - min_curr
+            Supply[tr]=Supply[tr] - min_curr
+            Alloc_Matrix[tr,tc]=min_curr
+            Total_Cost=Total_Cost+(min_curr*ex_matrix[tr,tc])
+  
+            if(Demand[tc]==0)
+            {
+              ex_matrix[,tc]=rep(High_Values,nrow(ex_matrix))
+            }else if(Demand[tc]==Supply[tr])
+            {
+              ex_matrix[tr,]=rep(High_Values,ncol(ex_matrix))
+              ex_matrix[,tc]=rep(High_Values,nrow(ex_matrix))
+            }else{
+              ex_matrix[tr,]=rep(High_Values,ncol(ex_matrix))
+            }
+            Total_alloc=Total_alloc+1
           }
 
           output=list()
-          output$Cost_Matrix=Cost_Matrix
+          output$Alloc_Matrix=Alloc_Matrix
           output$Total_Cost=Total_Cost
           if(sum(Demand) != 0)
             output$Dummy_demand=sum(Demand)

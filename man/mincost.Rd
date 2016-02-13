@@ -11,15 +11,15 @@ mincost(ex_matrix)
 Input matrix should not have any missing values (NA), otherwise function will throw an error.}
 }
 \value{
-A List which contrains the Cost allocation matrix and the total optimized cost.
+A List which contrains the allocation matrix and the total optimized cost.
 }
 \description{
-This function implements Minimum Cost Algorithm to resolve transportation problem and get optimized cost matrix
+This function implements Minimum Cost Algorithm to resolve transportation problem and get optimized allocation matrix
 }
 \details{
 This function takes a cost matrix (with Supply and Demand) and using North-West Corner approach gives
-the cost allocation matrix as well as the calcualted optimized cost.
-This function checks for degenerated problem but it can't resolve it. User need to resolve by seeing the cost allocation matrix.
+the allocation matrix as well as the calcualted optimized cost.
+This function checks for degenerated problem but it can't resolve it. User need to resolve by seeing final allocation matrix.
 If Supply and Demand are not equal Balance Supply/Demand will be stored in Dummy variable.
 }
 \examples{
@@ -41,7 +41,7 @@ Demand 210 240 110 80 170    810
 
 mincost(ex_matrix)
 
-$Cost_Matrix
+$Alloc_Matrix
      M1  M2  M3 M4  M5
 W1 140 140 110  0  40
 W2  70   0   0 80   0

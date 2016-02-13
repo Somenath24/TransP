@@ -31,7 +31,7 @@
 #' Demand 210 240 110 80 170    810
 #'
 #' nwc(ex_matrix)
-#' $Cost_Matrix
+#' $Alloc_Matrix
 #'     M1  M2  M3 M4  M5
 #' W1 210 220   0  0   0
 #' W2   0  20 110 20   0
@@ -50,8 +50,8 @@ nwc=function(ex_matrix){
   if(sum(is.na(ex_matrix))>0)
     stop("Your matrix has NA values")
 
-  Cost_Matrix=ex_matrix[-nrow(ex_matrix),-ncol(ex_matrix)]
-  Cost_Matrix[,]=0
+  Alloc_Matrix=ex_matrix[-nrow(ex_matrix),-ncol(ex_matrix)]
+  Alloc_Matrix[,]=0
   tr=1
   tc=1
   Total_Cost=0
@@ -62,7 +62,7 @@ nwc=function(ex_matrix){
     min_curr=min(ex_matrix[tr,ncol(ex_matrix)],ex_matrix[nrow(ex_matrix),tc])
     ex_matrix[tr,ncol(ex_matrix)]=ex_matrix[tr,ncol(ex_matrix)] - min_curr
     ex_matrix[nrow(ex_matrix),tc]=ex_matrix[nrow(ex_matrix),tc] - min_curr
-    Cost_Matrix[tr,tc]=min_curr
+    Alloc_Matrix[tr,tc]=min_curr
     Total_Cost=Total_Cost+(min_curr*ex_matrix[tr,tc])
     if(ex_matrix[nrow(ex_matrix),tc]==0)
     {
@@ -79,7 +79,7 @@ nwc=function(ex_matrix){
   }
 
   output=list()
-  output$Cost_Matrix=Cost_Matrix
+  output$Alloc_Matrix=Alloc_Matrix
   output$Total_Cost=Total_Cost
 
   if(sum(ex_matrix[nrow(ex_matrix),]) != 0)
@@ -87,7 +87,8 @@ nwc=function(ex_matrix){
   else if(sum(ex_matrix[,ncol(ex_matrix)]) != 0)
     output$Dummy_supply=sum(ex_matrix[,ncol(ex_matrix)])
 
-  if(Total_alloc < (nrow(Cost_Matrix) + ncol(Cost_Matrix)-1))
+  if(Total_alloc < (nrow(Alloc_Matrix) + ncol(Alloc_Matrix)-1))
     warning("Degenracy in Transporation Problem Occurred")
+  
   return(output)
 }
